@@ -1,6 +1,6 @@
 
 /**
- * The TabItem component is introduced to handle each tab item, and it adjusts its width using the flex property based on whether it's focused or not.
+ * Hi Cosmas; Here The TabItem component is introduced to handle each tab item, and it adjusts its width using the flex property based on whether it's focused or not.
  * 
  * The focused prop is passed to the TabItem component to determine whether the tab is currently selected.
  * 
