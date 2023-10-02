@@ -1,0 +1,140 @@
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { RouteProp } from '@react-navigation/native';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { RF } from '../../../helpers';
+import { TabRoutes } from '../../types/app';
+import { AppointmenHome, CommunityHome, Home, ProfileHome } from '../../../screen';
+import { Text } from '../../../components/common/Text';
+import { pallets } from '../../../constants';
+
+const { Navigator, Screen } = createBottomTabNavigator<TabRoutes>();
+const Width = Dimensions.get('screen').width;
+
+export default function TabNavigator() {
+  return (
+    <Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: Width,
+          alignSelf: 'center',
+          paddingHorizontal: 10,
+        },
+      })}
+    >
+      <Screen
+        name="Home"
+        component={CommunityHome}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, focused }) => (
+            <TabItem
+              label="Home"
+              focused={focused}
+              activeIcon={<HomeActiveIcon />}
+              inactiveIcon={<HomeeIcon />}
+            />
+          ),
+        }}
+      />
+
+      <Screen
+        name="Community"
+        component={ProfileHome}
+        options={{
+          tabBarLabel: 'Connect',
+          tabBarIcon: ({ color, focused }) => (
+            <TabItem
+              label="Connect"
+              focused={focused}
+              activeIcon={<CommunityActiveIcon />}
+              inactiveIcon={<CommunityIcon />}
+            />
+          ),
+        }}
+      />
+
+      <Screen
+        name="Shop"
+        component={ProfileHome}
+        options={{
+          tabBarLabel: 'Shop',
+          tabBarIcon: ({ color, focused }) => (
+            <TabItem
+              label="Shop"
+              focused={focused}
+              activeIcon={<ShopActiveIcon />}
+              inactiveIcon={<ShopIcon2 />}
+            />
+          ),
+        }}
+      />
+
+      <Screen
+        name="Appointment"
+        component={AppointmenHome}
+        options={{
+          tabBarLabel: 'Consult',
+          tabBarIcon: ({ color, focused }) => (
+            <TabItem
+              label="Consult"
+              focused={focused}
+              activeIcon={<AppointmentActiveIcon />}
+              inactiveIcon={<AppointmentIcon />}
+            />
+          ),
+        }}
+      />
+
+      <Screen
+        name="Profile"
+        component={ProfileHome}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, focused }) => (
+            <TabItem
+              label="Profile"
+              focused={focused}
+              activeIcon={<ProfileActiveIcon />}
+              inactiveIcon={<ProfileIcon2 />}
+            />
+          ),
+        }}
+      />
+    </Navigator>
+  );
+}
+
+const TabItem = ({ label, focused, activeIcon, inactiveIcon }) => (
+  <View
+    style={[
+      styles.tabItem,
+      {
+        flex: focused ? 1 : 0.8, // Adjust the flex value based on focus
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    ]}
+  >
+    {focused ? activeIcon : inactiveIcon}
+    {focused && (
+      <Text style={styles.activeText} fontWeight="750">
+        {label}
+      </Text>
+    )}
+  </View>
+);
+
+const styles = StyleSheet.create({
+  tabItem: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    minWidth: 80,
+    paddingVertical: 10,
+  },
+  activeText: { color: pallets.primaryBlue, fontSize: RF(9, 1), marginTop: 4, marginStart: 1 },
+});
