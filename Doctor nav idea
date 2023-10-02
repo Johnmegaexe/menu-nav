@@ -1,3 +1,14 @@
+
+/**
+ * The TabItem component is introduced to handle each tab item, and it adjusts its width using the flex property based on whether it's focused or not.
+ * 
+ * The focused prop is passed to the TabItem component to determine whether the tab is currently selected.
+ * 
+ * The flex property is set to 1 when a tab is focused, giving it more space, and to 0.8 when it's not focused, making it slightly narrower.
+ * 
+ * The activeIcon and inactiveIcon are passed as props to the TabItem component, which allows you to specify different icons for active and inactive tabs.
+ */
+
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
