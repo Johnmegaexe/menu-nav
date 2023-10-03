@@ -1,0 +1,114 @@
+/**
+ * By using this approach, when a tab is clicked, it will expand to display the text, and the adjacent tabs will shift to accommodate the expanded tab
+
+ * Here The 'activeTab' state is used to keep track of which tab is currently active.
+
+ * The 'handleTabPress' function is called when a tab is pressed, and it updates the 'activeTab' state with the name of the pressed tab.
+
+ * The 'TabItem' component now accepts an 'active' prop to determine whether the tab is currently selected. It also accepts an 'onPress' function to handle tab presses.
+
+ * The 'IconComponent' component is responsible for rendering the icons with or without text based on the 'active' prop.
+ */
+
+
+import React, { useState } from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { RouteProp } from '@react-navigation/native';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { RF } from '../../../helpers';
+import { TabRoutes } from '../../types/app';
+import { AppointmenHome, CommunityHome, Home, ProfileHome } from '../../../screen';
+import { Text } from '../../../components/common/Text';
+import { pallets } from '../../../constants';
+
+const { Navigator, Screen } = createBottomTabNavigator<TabRoutes>();
+const Width = Dimensions.get('screen').width;
+
+export default function TabNavigator() {
+  const [activeTab, setActiveTab] = useState(null);
+
+  const handleTabPress = (routeName: string) => {
+    setActiveTab(routeName);
+  };
+
+  return (
+    <Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: Width,
+          alignSelf: 'center',
+          paddingHorizontal: 10,
+        },
+      })}
+    >
+      <Screen
+        name="Home"
+        component={CommunityHome}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabItem
+              label="Home"
+              active={activeTab === 'Home'}
+              onPress={() => handleTabPress('Home')}
+            />
+          ),
+        }}
+      />
+      {/* Add similar Screen components for other tabs */}
+    </Navigator>
+  );
+}
+
+const TabItem = ({ label, active, onPress }) => (
+  <View
+    style={[
+      styles.tabItem,
+      {
+        flex: active ? 1 : 0.8, // Adjust the flex value based on focus
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    ]}
+    onTouchStart={onPress}
+  >
+    <IconComponent active={active} />
+    {active && (
+      <Text style={styles.activeText} fontWeight="750">
+        {label}
+      </Text>
+    )}
+  </View>
+);
+
+const IconComponent = ({ active }) => {
+  if (active) {
+    // Render the icon with text for the active state
+    return (
+      <>
+        {/* Place your active icon component here */}
+        <Text style={styles.activeText}>Appointment</Text>
+      </>
+    );
+  } else {
+    // Render the icon without text for the inactive state
+    return (
+      <>
+        {/* Place your inactive icon component here */}
+      </>
+    );
+  }
+};
+
+const styles = StyleSheet.create({
+  tabItem: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    minWidth: 80,
+    paddingVertical: 10,
+  },
+  activeText: { color: pallets.primaryBlue, fontSize: RF(9, 1), marginTop: 4, marginStart: 1 },
+});
